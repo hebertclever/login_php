@@ -30,7 +30,7 @@
 <?php include 'navbar.php'; // Inclui a navbar e o modal ?>
 
 
-<h1>Profile <a href="edit_info.html">Edit</a></h1>
+<h1>Profile <a href="edit_info.php">Edit</a></h1>
 <div>
     <label>Photo:</label>
     <img src="<?php echo $row['url_img']; ?>" alt="Imagem de Perfil">
