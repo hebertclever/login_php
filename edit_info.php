@@ -40,8 +40,12 @@ $conn->close();
 
     <h1>Edit Profile</h1>
     <form action="update_info.php" method="post" enctype="multipart/form-data">
+        <span>
+        <img src="<?= isset($user_info['url_img']) ? $user_info['url_img'] : 'default.png' ?>" alt="Profile Image">    
         <label>Photo:</label>
         <input type="file" name="url_img">
+        </span>
+       
         <label>Name:</label>
         <input type="text" name="name" value="<?= isset($user_info['name']) ? $user_info['name'] : '' ?>">
         <label>Bio:</label>
