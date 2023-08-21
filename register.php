@@ -26,17 +26,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($resultEmail->num_rows > 0) {
         $emailError = "E-mail já existe.";
-        
     } else {
         $stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
         $stmt->bind_param("ss", $email, $passwordHashed);
-
+    
         if ($stmt->execute()) {
-             "Usuário cadastrado com sucesso";
-        } else {
+            // Inicie uma sessão e armazene o e-mail como uma variável de sessão.
+            session_start();
+            $_SESSION['email'] = $email;
             
+            // Redirecione para a página de personal_info.php.
+            header("Location: personal_info.php");
+            exit(); // Certifique-se de chamar exit() após o redirecionamento para parar a execução do código.
+        } else {
+            // Código para manipular o erro, caso necessário.
         }
     }
+    
 
     $stmt->close();
     $conn->close();
