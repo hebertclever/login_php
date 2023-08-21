@@ -1,19 +1,111 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <script src="https://kit.fontawesome.com/d7477d78b2.js" crossorigin="anonymous"></script>
     <title>Informações Pessoais</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
+
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+
+
+        .container-box {
+            width: 940px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;           
+            box-sizing: border-box;
+            
+        }
+
+        .container-box p{
+            font-size: 13px;
+            font-weight: 500;
+            color: #828282;
+
+        }
+
+        .personal-box {
+            border-bottom: 1px solid #E0E0E0;
+            padding: 10px;
+            margin: 0;          
+
+        }
+
+        .text-top{
+            margin-left: 50px;
+        }
+
+        .personal-box label {
+            width: 20%;
+            font-size: 13px;
+            color:#BDBDBD;
+            text-transform: uppercase;
+            margin-left: 50px
+            
+;
+            
+        }
+
+        .personal-box span {
+            width: 80%;
+            
+        }
+        .personal-box span p {
+            width: 80%;
+            font-size: 18px;
+            color:#333333 ;
+            font-weight: 600;
+        }
+
+        .line-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-personal {
+            font-weight: bold;
+        }
+
+        .image-container {
+            width: 80%;
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-container img {
+            width: 100px;
+            border-radius: 5px;
+            
+        }
+
+        .image-container .camera-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
-    
+
     <?php
     session_start();
-    if (!isset($_SESSION['username'])) {
+    if (!isset($_SESSION['email'])) {
         header("Location: login.php");
         exit;
     }
 
-    $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
 
     $servername = "localhost";
     $db_username = "root";
@@ -22,40 +114,63 @@
 
     $conn = new mysqli($servername, $db_username, $password, $dbname);
 
-    $sql = "SELECT * FROM users WHERE username='$username'";
+    $sql = "SELECT * FROM users WHERE email='$email'";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     ?>
 
-<?php include 'navbar.php'; // Inclui a navbar e o modal ?>
+    <?php include 'navbar.php'; 
+    ?>
+
+    <h1>Personal info</h1>
+    <p>Basic info, like your name and photo</p>
+    <main class="container-box">
+        <div class="personal-box title-personal line-box">
+            <div>
+                <h3 class="text-top">Profile</h3>
+                <p class="text-top">Some info may be visible to other people</p>
+            </div>
+            <div>
+                <a href="edit_info.php">Edit</a>
+            </div>
+        </div>
+
+        <div class="personal-box line-box">
+            <label>Photo</label>
+            <div class="image-container">
+                <div class="image-box">
+                    <i class="fa-solid fa-camera camera-icon"></i>
+                    <img src="./imagem/Captura de tela 2023-08-21 074805.png" alt="Imagem de Perfil">
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="personal-box line-box">
+            <label>Name</label>
+            <span><p><?php echo $row['name']; ?></p></span>
+        </div>
+        <div class="personal-box line-box">
+            <label>Bio</label>
+            <span><p><?php echo $row['bio']; ?></p></span>
+        </div>
+        <div class="personal-box line-box">
+            <label>Phone</label>
+            <span><p><?php echo $row['phone']; ?></p></span>
+        </div>
+        <div class="personal-box line-box">
+            <label>Email</label>
+            <span><p><?php echo $row['email']; ?></p></span>
+        </div>
+        <div class="personal-box line-box">
+            <label>Password</label>
+            <span><p>*********************</p></span>
+        </div>
+    </main>
 
 
-<h1>Profile <a href="edit_info.php">Edit</a></h1>
-<div>
-    <label>Photo:</label>
-    <img src="<?php echo $row['url_img']; ?>" alt="Imagem de Perfil">
-</div>
-<div>
-    <label>Name:</label>
-    <span><?php echo $row['name']; ?></span>
-</div>
-<div>
-    <label>Bio:</label>
-    <span><?php echo $row['bio']; ?></span>
-</div>
-<div>
-    <label>Phone:</label>
-    <span><?php echo $row['phone']; ?></span>
-</div>
-<div>
-    <label>Email:</label>
-    <span><?php echo $row['email']; ?></span>
-</div>
-<div>
-    <label>Password:</label>
-    <span>*********************</span>
-</div>
-
-<?php $conn->close(); ?>
+    
 </body>
+
 </html>

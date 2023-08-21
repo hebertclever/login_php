@@ -1,15 +1,15 @@
 <?php
-session_start();
-
-$error = "";
+$emailError = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $servername = "localhost";
-    $username = "root";
+    $username_db = "root";
     $password_db = "";
     $dbname = "formulario_hebert";
 
-    $conn = new mysqli($servername, $username, $password_db, $dbname);
+    $emailError = '';
+
+    $conn = new mysqli($servername, $username_db, $password_db, $dbname);
 
     if ($conn->connect_error) {
         die("Conexão falhou: " . $conn->connect_error);
@@ -17,24 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $resultEmail = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['email'] = $email;
-            header("Location: personal_info.php");
-            exit;
-        } else {
-            echo "Usuário ou senha inválidos";
-        }
+    if ($resultEmail->num_rows > 0) {
+        $emailError = "E-mail já existe.";
+        echo $emailError;
     } else {
-        $error = "Email não encontrado";
-        echo $error;
+        $stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+        $stmt->bind_param("ss", $email, $passwordHashed);
+
+        if ($stmt->execute()) {
+            echo "Usuário cadastrado com sucesso";
+        } else {
+            echo "Erro ao cadastrar usuário";
+        }
     }
 
     $stmt->close();
@@ -51,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/d7477d78b2.js" crossorigin="anonymous"></script>
-    <title>Login</title>
+    <title>Cadastro</title>
 </head>
 
 <body>
@@ -65,8 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M95.558 49.3712L67.6587 68.9084C63.8066 71.6059 58.4971 70.6699 55.7995 66.8178C55.1252 65.8548 54.6779 64.8007 54.4465 63.719C54.0623 61.9234 54.2732 60.0519 55.0277 58.3956C55.6367 57.0589 56.5998 55.8623 57.8901 54.9588L85.7895 35.4216C89.6416 32.7241 94.9511 33.6601 97.6486 37.5122C98.6905 39 99.1903 40.7052 99.1895 42.3933C99.1881 45.076 97.9223 47.7156 95.558 49.3712Z" fill="#F0402C"></path>
             </svg>
         </div>
-        <h1>Login</h1>
-        <form action="login.php" method="post">
+        <h1>Join thousands of learners from around the world </h1>
+        <h4>Master web development by making real-life projects. There are multiple paths for you to choose</h4>
+        <form action="register.php" method="post">
             <div class="input">
                 <i class="fa-solid fa-envelope"></i>
                 <input class="meu-input" type="email" name="email" placeholder="Email" required>
@@ -78,13 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
             <input class="button" type="submit" value="Start coding now">
-            <?php if (!empty($error)) : ?>
-                <div class="error-message">
-                    <div><?php echo $error; ?></div>
-                </div>
+            <?php if ($emailError) : ?>
+                <div class="error-message"><?php echo $emailError; ?></div>
             <?php endif; ?>
-
-
             <p class="social-text">or continue with these social profile</p>
             <div class="icons">
                 <i class="fa-brands fa-google"></i>
@@ -92,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <i class="fa-brands fa-twitter"></i>
                 <i class="fa-brands fa-github"></i>
             </div>
-            <p class="social-text text2">Don’t have an account yet? <a href="register.php"> Register</a></p>
+            <p class="social-text text2">Already a member?<a href="login.php">Login</a></p>
 
 
 

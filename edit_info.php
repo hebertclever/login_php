@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }
@@ -18,10 +18,10 @@ if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
 
-$username = $_SESSION['username'];
+$email = $_SESSION['email'];
 
 // Consulta para buscar informações do usuário logado
-$sql = "SELECT username, email, url_img, name, bio, phone FROM users WHERE username='$username'";
+$sql = "SELECT email, url_img, name, bio, phone FROM users WHERE email='$email'";
 $result = $conn->query($sql);
 
 // Armazena as informações do usuário
@@ -33,30 +33,91 @@ $conn->close();
 <html>
 <head>
     <title>Editar Informações</title>
-    <!-- Inclua o CSS para a navbar aqui -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+    background-color: #f4f4f4;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.navbar{
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+label, input {
+    display: block;
+    margin: 10px 0;
+}
+
+input[type="text"], input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+@media screen and (max-width: 900px) {
+    .content {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .content {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+    </style>
 </head>
 <body>
-    <?php include 'navbar.php'; // Inclui a navbar ?>
+    <?php include 'navbar.php'; ?>
 
-    <h1>Edit Profile</h1>
-    <form action="update_info.php" method="post" enctype="multipart/form-data">
-        <span>
-        <img src="<?= isset($user_info['url_img']) ? $user_info['url_img'] : 'default.png' ?>" alt="Profile Image">    
-        <label>Photo:</label>
-        <input type="file" name="url_img">
-        </span>
-       
-        <label>Name:</label>
-        <input type="text" name="name" value="<?= isset($user_info['name']) ? $user_info['name'] : '' ?>">
-        <label>Bio:</label>
-        <input type="text" name="bio" value="<?= isset($user_info['bio']) ? $user_info['bio'] : '' ?>">
-        <label>Phone:</label>
-        <input type="text" name="phone" value="<?= isset($user_info['phone']) ? $user_info['phone'] : '' ?>">
-        <label>Email:</label>
-        <input type="email" name="email" value="<?= isset($user_info['email']) ? $user_info['email'] : '' ?>">
-        <input type="submit" value="Salvar">
-    </form>
-
-    <!-- Inclua o modal aqui -->
+    <div class="content">
+        <h1>Edit Profile</h1>
+        <form action="update_info.php" method="post" enctype="multipart/form-data">
+            <span>
+                <img src="<?= isset($user_info['url_img']) ? $user_info['url_img'] : 'default.png' ?>" alt="Profile Image">
+                <label>Photo:</label>
+                <input type="file" name="url_img">
+            </span>
+            <label>Name:</label>
+            <input type="text" name="name" value="<?= isset($user_info['name']) ? $user_info['name'] : '' ?>">
+            <label>Bio:</label>
+            <input type="text" name="bio" value="<?= isset($user_info['bio']) ? $user_info['bio'] : '' ?>">
+            <label>Phone:</label>
+            <input type="text" name="phone" value="<?= isset($user_info['phone']) ? $user_info['phone'] : '' ?>">
+            <label>Email:</label>
+            <input type="email" name="email" value="<?= isset($user_info['email']) ? $user_info['email'] : '' ?>">
+            <input type="submit" value="Salvar">
+        </form>
+    </div>
 </body>
 </html>

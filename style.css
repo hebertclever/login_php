@@ -41,7 +41,7 @@ h4 {
 
 .form-container{
     width: 473px;
-    height: 634px;
+    height: 695px;
     border: solid 1px #BDBDBD;
     border-radius: 24px;
     padding: 60px;
@@ -73,27 +73,43 @@ h4 {
     margin: 15px 0px 10px 0px;
 }
 
-.input input {
+.meu-input{
     border: none;
     box-shadow: none;
     background: none;
     outline: none;
+    font-size: 16px;
+    color: #828282;
 }
 
+.meu-input:focus {
+    outline: none;
+    background-color: none;
+    font-size: 16px;
+    color: #828282;
+    
+  }
+  
+
 input::placeholder {
-    color: #828282; 
+    color: #828282;
+    background-color: transparent;
   }
   
 .button {
     margin-top: 15px;
     padding: 8px;
-    background-color:#2F80ED ;
+    background-color:#2F80ED;
     color: white;
     text-align: center;
     border: none;
     font-size: 16px;
     width: 100%;
     border-radius: 8px;
+}
+
+.button:hover{
+    background-color: #256ece;
 }
 
 .fa-solid {
@@ -103,4 +119,39 @@ input::placeholder {
 
 .fa-brands {
     color: #828282;
+}
+
+.social-text {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 30px;
+    text-align: center;
+    color: #828282;
+
+}
+
+.social-text a{
+    text-decoration: none;
+    color: #2D9CDB;
+}
+
+
+.icons {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.icons i {
+    padding: 10px;
+    border: solid 1px #828282;
+    border-radius: 100%;
+    margin-right: 15px;
+    
+}
+
+.error-message {
+    color: #333333;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 10px;
 }
