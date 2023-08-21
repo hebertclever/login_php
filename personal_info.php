@@ -15,17 +15,15 @@
             font-family: 'Noto Sans', sans-serif;
         }
 
-
-
         .container-box {
             width: 940px;
             border: 1px solid #E0E0E0;
-            border-radius: 10px;           
+            border-radius: 10px;
             box-sizing: border-box;
-            
+
         }
 
-        .container-box p{
+        .container-box p {
             font-size: 13px;
             font-weight: 500;
             color: #828282;
@@ -35,33 +33,32 @@
         .personal-box {
             border-bottom: 1px solid #E0E0E0;
             padding: 10px;
-            margin: 0;          
+            margin: 0;
 
         }
 
-        .text-top{
+        .text-top {
             margin-left: 50px;
         }
 
         .personal-box label {
             width: 20%;
             font-size: 13px;
-            color:#BDBDBD;
+            color: #BDBDBD;
             text-transform: uppercase;
-            margin-left: 50px
-            
-;
-            
+            margin-left: 50px;
+
         }
 
         .personal-box span {
             width: 80%;
-            
+
         }
+
         .personal-box span p {
             width: 80%;
             font-size: 18px;
-            color:#333333 ;
+            color: #333333;
             font-weight: 600;
         }
 
@@ -84,7 +81,7 @@
         .image-container img {
             width: 100px;
             border-radius: 5px;
-            
+
         }
 
         .image-container .camera-icon {
@@ -95,34 +92,38 @@
         }
 
         /* Para tablets (tamanho da tela abaixo de 768px) */
-@media screen and (max-width: 768px) {
-    .container-box {
-        width: 90%;
-    }
-    .personal-box label,
-    .personal-box span p {
-        font-size: 16px;
-    }
-    /* Outros ajustes específicos para tablets aqui */
-}
+        @media screen and (max-width: 768px) {
+            .container-box {
+                width: 90%;
+            }
 
-/* Para celulares (tamanho da tela abaixo de 480px) */
-@media screen and (max-width: 480px) {
-    .container-box {
-        width: 100%;
-        padding: 5px;
-    }
-    .personal-box label,
-    .personal-box span p {
-        font-size: 14px;
-    }
-    .text-top,
-    .personal-box label {
-        margin-left: 20px;
-    }
-    /* Outros ajustes específicos para celulares aqui */
-}
+            .personal-box label,
+            .personal-box span p {
+                font-size: 16px;
+            }
 
+            /* Outros ajustes específicos para tablets aqui */
+        }
+
+        /* Para celulares (tamanho da tela abaixo de 480px) */
+        @media screen and (max-width: 480px) {
+            .container-box {
+                width: 100%;
+                padding: 5px;
+            }
+
+            .personal-box label,
+            .personal-box span p {
+                font-size: 14px;
+            }
+
+            .text-top,
+            .personal-box label {
+                margin-left: 20px;
+            }
+
+            /* Outros ajustes específicos para celulares aqui */
+        }
     </style>
 </head>
 
@@ -144,13 +145,19 @@
 
     $conn = new mysqli($servername, $db_username, $password, $dbname);
 
-    $sql = "SELECT * FROM users WHERE email='$email'";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user_info = $result->fetch_assoc();
+
+    $image_url = !empty($user_info['url_img']) ? $user_info['url_img'] : './imagem/default_avatar.png';
     ?>
 
-    <?php include 'navbar.php'; 
+    <?php include 'navbar.php';
     ?>
+
 
     <h1>Personal info</h1>
     <p>Basic info, like your name and photo</p>
@@ -170,37 +177,44 @@
             <div class="image-container">
                 <div class="image-box">
                     <i class="fa-solid fa-camera camera-icon"></i>
-                    <img src="./imagem/Captura de tela 2023-08-21 074805.png" alt="Imagem de Perfil">
-
+                    <img src="<?= $image_url ?>" alt="Imagem de Perfil">
                 </div>
-
             </div>
-
         </div>
         <div class="personal-box line-box">
             <label>Name</label>
-            <span><p><?php echo $row['name']; ?></p></span>
+            <span>
+                <p><?php echo $row['name']; ?></p>
+            </span>
         </div>
         <div class="personal-box line-box">
             <label>Bio</label>
-            <span><p><?php echo $row['bio']; ?></p></span>
+            <span>
+                <p><?php echo $row['bio']; ?></p>
+            </span>
         </div>
         <div class="personal-box line-box">
             <label>Phone</label>
-            <span><p><?php echo $row['phone']; ?></p></span>
+            <span>
+                <p><?php echo $row['phone']; ?></p>
+            </span>
         </div>
         <div class="personal-box line-box">
             <label>Email</label>
-            <span><p><?php echo $row['email']; ?></p></span>
+            <span>
+                <p><?php echo $row['email']; ?></p>
+            </span>
         </div>
         <div class="personal-box line-box">
             <label>Password</label>
-            <span><p>*********************</p></span>
+            <span>
+                <p>*********************</p>
+            </span>
         </div>
     </main>
 
 
-    
+
 </body>
 
 </html>

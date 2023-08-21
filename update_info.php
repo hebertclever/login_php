@@ -18,7 +18,7 @@ $url_img = "";
 
 
 if ($_FILES['url_img']['error'] == UPLOAD_ERR_OK) {
-    if ($_FILES['url_img']['size'] > 70000) {
+    if ($_FILES['url_img']['size'] > 700000) {
         echo "A imagem é muito grande (limite de 70KB).";
         exit();
     }
