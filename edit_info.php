@@ -36,17 +36,16 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        body {
-    background-color: #f4f4f4;
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0;
     font-family: Arial, sans-serif;
-    width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
 }
 
-.navbar{
-    width: 100%;
-}
 
 .content {
     width: 100%;
