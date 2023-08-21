@@ -93,6 +93,36 @@
             right: 0;
             color: #ffffff;
         }
+
+        /* Para tablets (tamanho da tela abaixo de 768px) */
+@media screen and (max-width: 768px) {
+    .container-box {
+        width: 90%;
+    }
+    .personal-box label,
+    .personal-box span p {
+        font-size: 16px;
+    }
+    /* Outros ajustes específicos para tablets aqui */
+}
+
+/* Para celulares (tamanho da tela abaixo de 480px) */
+@media screen and (max-width: 480px) {
+    .container-box {
+        width: 100%;
+        padding: 5px;
+    }
+    .personal-box label,
+    .personal-box span p {
+        font-size: 14px;
+    }
+    .text-top,
+    .personal-box label {
+        margin-left: 20px;
+    }
+    /* Outros ajustes específicos para celulares aqui */
+}
+
     </style>
 </head>
 
