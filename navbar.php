@@ -25,6 +25,7 @@
     align-items: center;
     margin-left: auto;
     margin-right: 50px;
+    position: relative; 
 }
 
 .profile-image img {
@@ -46,9 +47,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    top: 100px;
-    right: 230px;
+    position: absolute; 
+    top: 60px; 
+    right: 0;
     width: 200px;
     height: 200px;
     background-color: white;
@@ -138,21 +139,26 @@ $conn->close();
                 
 
             </div>
+
+
+            
             <div class="profile-area">
                 <div class="profile-image">
                     <img src="./imagem/Captura de tela 2023-08-21 074805.png" alt="Imagem de Perfil" id="profileImage">
                 </div>
                 <div class="profile-name"><span><p><?php echo $row['name']; ?></p></span></div>
                 <div class="arrow-up" id="closeModal"><i class="fa-solid fa-arrow-up"></i></div>
-            </div>
-        </div>
+                
 
-        <div id="myModal" class="modal">
-            <div class="modal-content">
+           <div id="myModal" class="modal">
+               <div class="modal-content">
                 <a href="personal_info.php"><i class="fa-solid fa-user"></i> My Profile</a>
                 <button><i class="fa-solid fa-comments"></i> Group Chat</button>
                 <a href="logout.php"><i class="fa-solid fa-sign-out"></i> Logout</a>
+               </div>
             </div>
+            </div>  
+           
         </div>
     
 
