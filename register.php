@@ -26,15 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($resultEmail->num_rows > 0) {
         $emailError = "E-mail já existe.";
-        echo $emailError;
+        
     } else {
         $stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
         $stmt->bind_param("ss", $email, $passwordHashed);
 
         if ($stmt->execute()) {
-            echo "Usuário cadastrado com sucesso";
+             "Usuário cadastrado com sucesso";
         } else {
-            echo "Erro ao cadastrar usuário";
+            
         }
     }
 

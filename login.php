@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: personal_info.php");
             exit;
         } else {
-            echo "Usuário ou senha inválidos";
+             "Usuário ou senha inválidos";
         }
     } else {
         $error = "Email não encontrado";
-        echo $error;
+         
     }
 
     $stmt->close();
