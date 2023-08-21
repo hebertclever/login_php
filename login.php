@@ -16,31 +16,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $password = $_POST['password']; // A senha original inserida pelo usuário
 
-    $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
+        // Verificamos a senha original inserida pelo usuário com o hash da senha armazenado no banco de dados
         if (password_verify($password, $user['password'])) {
             $_SESSION['email'] = $email;
             header("Location: personal_info.php");
             exit;
         } else {
-             "Usuário ou senha inválidos";
+            echo "Usuário ou senha inválidos"; // Adicionei um 'echo' aqui para imprimir a mensagem
         }
     } else {
         $error = "Email não encontrado";
-         
+        echo $error; // Você pode querer imprimir ou lidar com essa mensagem de erro de alguma forma
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
+
 
 
 
