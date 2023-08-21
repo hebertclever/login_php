@@ -31,15 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("ss", $email, $passwordHashed);
     
         if ($stmt->execute()) {
-            // Inicie uma sessão e armazene o e-mail como uma variável de sessão.
+           
             session_start();
             $_SESSION['email'] = $email;
             
-            // Redirecione para a página de personal_info.php.
+            
             header("Location: personal_info.php");
-            exit(); // Certifique-se de chamar exit() após o redirecionamento para parar a execução do código.
+            exit(); 
         } else {
-            // Código para manipular o erro, caso necessário.
+            
         }
     }
     

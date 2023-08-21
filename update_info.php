@@ -16,7 +16,7 @@ $phone = $_POST['phone'];
 
 $url_img = "";
 
-// Verifica se um arquivo foi carregado
+
 if ($_FILES['url_img']['error'] == UPLOAD_ERR_OK) {
     if ($_FILES['url_img']['size'] > 70000) {
         echo "A imagem é muito grande (limite de 70KB).";

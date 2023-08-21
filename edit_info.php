@@ -6,7 +6,7 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-// Código para conectar ao banco de dados
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -20,11 +20,11 @@ if ($conn->connect_error) {
 
 $email = $_SESSION['email'];
 
-// Consulta para buscar informações do usuário logado
+
 $sql = "SELECT email, url_img, name, bio, phone FROM users WHERE email='$email'";
 $result = $conn->query($sql);
 
-// Armazena as informações do usuário
+
 $user_info = $result->fetch_assoc();
 
 $conn->close();
@@ -100,7 +100,10 @@ input[type="submit"]:hover {
 <body>
     <?php include 'navbar.php'; ?>
 
+    
+
     <div class="content">
+    <p class="social-text text2"><a href="personal_info.php"> Back</a></p>
         <h1>Edit Profile</h1>
         <form action="update_info.php" method="post" enctype="multipart/form-data">
             <span>
